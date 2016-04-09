@@ -6,14 +6,16 @@ var mRandomNumber;              // The Random Number
 var mQuote;                     // Random Quote
 var mSource;                    // The random quote's author.
 var mCitation;                  // The citation
+var mYear;                      // The year the quote was stated.
 var selectedObject;             // The object containing the new quote and source.
 // Array of quote objects
-var mQuotesAndSourcesArray = [
+var quotes = [
   {
     quote : "Don't be concerned others not appreciating you."
             + " Be concerned about your not appreciating others.",
     source : "Confucius",
     citation : "Cliches and one-liners Quotes",
+    year : 1398, // The dates were not listed
     chosen : false
   },
   {
@@ -35,12 +37,14 @@ var mQuotesAndSourcesArray = [
   {
     quote : "If you quit—quitting will become easier and easier for the rest of your life.",
     source : "Osman Minkar",
+    year : 1998, // The dates were not listed
     chosen : false
   },
   {
     quote : "Growth means change and change involves risk, stepping from the known to the unknown.",
-    source : "Benjamin Franklin",
+    source : "George Shinn",
     citation : "Change Quotes",
+    year : 1987,  // The dates were not listed 
     chosen : false
   }
 ];
@@ -63,28 +67,28 @@ var counter = 0;           // Keeps track of which numbers were found or not.
 function getRandomQuote() {
 
   // Generates the Random number to serve as the index.
-  mRandomNumber = Math.floor(Math.random() * mQuotesAndSourcesArray.length);
+  mRandomNumber = Math.floor(Math.random() * quotes.length);
 
   // This while loop makes sure that each quote is displayed once before
   // repeating them.
-  while (mQuotesAndSourcesArray[mRandomNumber].chosen)  {
+  while (quotes[mRandomNumber].chosen)  {
       // reset all of the chosen properties to false if all quotes were displayed.
-      if (counter == mQuotesAndSourcesArray.length) {
+      if (counter == quotes.length) {
         // Loop to reset them all.
-        for (var a = 0; a < mQuotesAndSourcesArray.length; a++) {
-            mQuotesAndSourcesArray[a].chosen = false;
+        for (var a = 0; a < quotes.length; a++) {
+            quotes[a].chosen = false;
             counter = 0;
        }
      }
-      mRandomNumber = Math.floor(Math.random() * mQuotesAndSourcesArray.length);
+      mRandomNumber = Math.floor(Math.random() * quotes.length);
   }
 
   // Increment the counter for each array item that has true for it's chosen
   // property.
   counter++;
-  mQuotesAndSourcesArray[mRandomNumber].chosen = true;
+  quotes[mRandomNumber].chosen = true;
 
-  return mQuotesAndSourcesArray[mRandomNumber];
+  return quotes[mRandomNumber];
 }
 
 setInterval(printQuote, 30000);   // Has it run automatically every 30 seconds.
@@ -99,20 +103,36 @@ function printQuote() {
   mQuote = selectedObject.quote;
   mSource = selectedObject.source;
   mCitation = selectedObject.citation;
+  mYear = selectedObject.year;
   console.log(mRandomNumber);
 
-  // if there isn't a citation for a given quote, don't print one.
-  if (mCitation != null) {
+  // if there isn't a citation or a year for a given quote, don't print one.
+  if (mCitation != null && mYear != null) {
+    document.getElementById("quote-box").innerHTML="<p class=\"quote\">"
+                                                + mQuote + "</p>"
+                                                + "<p class=\"source\">"
+                                                + mSource + "<span class=\"citation\">"
+                                                + mCitation + "</span>" +
+                                                "<span class=\"year\">"
+                                                 + mYear + "</span></p>";
+  } else if (mCitation != null){
     document.getElementById("quote-box").innerHTML="<p class=\"quote\">"
                                                 + mQuote + "</p>"
                                                 + "<p class=\"source\">"
                                                 + mSource + "<span class=\"citation\">"
                                                 + mCitation + "</span></p>";
-  } else {
-      document.getElementById("quote-box").innerHTML="<p class=\"quote\">"
+
+  } else if (mYear != null) {
+    document.getElementById("quote-box").innerHTML="<p class=\"quote\">"
                                                 + mQuote + "</p>"
                                                 + "<p class=\"source\">"
-                                                + mSource + "</p>";
+                                                + mSource + "<span class=\"year\">"
+                                                + mYear + "</span></p>";
 
+  }  else {
+    document.getElementById("quote-box").innerHTML="<p class=\"quote\">"
+                                              + mQuote + "</p>"
+                                              + "<p class=\"source\">"
+                                              + mSource + "</p>";
   }
 }
