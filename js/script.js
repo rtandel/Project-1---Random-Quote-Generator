@@ -95,7 +95,7 @@ setInterval(printQuote, 30000);   // Has it run automatically every 30 seconds.
 
 // Prints the new random quote
 function printQuote() {
-  // Choses and sets the background-color randomly when the button is pressed.
+  // Chooses and sets the background-color randomly when the button is pressed.
   document.body.style.backgroundColor
                     = mBackgroundColors[Math.floor(Math.random() * mBackgroundColors.length)];
 
